@@ -22,3 +22,11 @@ scripts/test.sh                       # compares results with official MARS
 ```
 
 The commit hook removes co-author lines. Please write commit messages in simple English.
+
+To make the Mac app and the dmg file:
+
+```sh
+scripts/package-macos.sh   # makes build/package/Mars-Macos-<version>-<arch>.dmg
+```
+
+The app has its own Java. It has no Apple Developer ID signature yet.
