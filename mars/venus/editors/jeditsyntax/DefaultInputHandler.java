@@ -82,6 +82,31 @@
          addKeyBinding("C+C", CLIP_COPY);
          addKeyBinding("C+V", CLIP_PASTE);
          addKeyBinding("C+X", CLIP_CUT);
+
+         if (System.getProperty("os.name", "").toLowerCase().startsWith("mac")) {
+            addMacKeyBindings();
+         }
+      }
+
+      // M is Command and A is Option.
+       private void addMacKeyBindings()
+      {
+         addKeyBinding("M+LEFT",HOME);
+         addKeyBinding("M+RIGHT",END);
+         addKeyBinding("MS+LEFT",SELECT_HOME);
+         addKeyBinding("MS+RIGHT",SELECT_END);
+         addKeyBinding("M+UP",DOCUMENT_HOME);
+         addKeyBinding("M+DOWN",DOCUMENT_END);
+         addKeyBinding("MS+UP",SELECT_DOC_HOME);
+         addKeyBinding("MS+DOWN",SELECT_DOC_END);
+         addKeyBinding("A+LEFT",PREV_WORD);
+         addKeyBinding("A+RIGHT",NEXT_WORD);
+         addKeyBinding("AS+LEFT",SELECT_PREV_WORD);
+         addKeyBinding("AS+RIGHT",SELECT_NEXT_WORD);
+         addKeyBinding("A+BACK_SPACE",BACKSPACE_WORD);
+         addKeyBinding("A+DELETE",DELETE_WORD);
+         addKeyBinding("C+A",HOME);
+         addKeyBinding("C+E",END);
       }
    
    /**

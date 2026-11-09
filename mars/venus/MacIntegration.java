@@ -6,11 +6,14 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 import javax.swing.Action;
 import javax.swing.SwingUtilities;
 import mars.Globals;
+import mars.Settings;
 
 /**
  * Connects MARS with the macOS menu bar, Finder, and native file dialogs.
@@ -39,6 +42,11 @@ public final class MacIntegration {
       }
       System.setProperty("apple.laf.useScreenMenuBar", "true");
       System.setProperty("apple.awt.application.name", "Mars-Macos");
+      useSystemThemeUntilUserChooses();
+      if (Globals.getSettings().getBooleanSetting(Settings.DARK_MODE)) {
+         // macOS reads this one time, so the title bar changes at the next start.
+         System.setProperty("apple.awt.application.appearance", "NSAppearanceNameDarkAqua");
+      }
       Desktop desktop = Desktop.getDesktop();
       if (desktop.isSupported(Desktop.Action.APP_OPEN_FILE)) {
          desktop.setOpenFileHandler(event -> {
@@ -87,6 +95,29 @@ public final class MacIntegration {
    /** Shows the native Save dialog. It asks before it replaces a file. */
    public static File chooseFileToSave(Frame parent, String directory, String name) {
       return choose(parent, "Save As", FileDialog.SAVE, directory, name);
+   }
+
+   // The Dark mode menu item saves the choice. After that, the saved choice wins.
+   private static void useSystemThemeUntilUserChooses() {
+      if (Preferences.userNodeForPackage(Settings.class).get("DarkMode", null) == null) {
+         Globals.getSettings().setBooleanSettingNonPersistent(Settings.DARK_MODE, isSystemDark());
+      }
+   }
+
+   private static boolean isSystemDark() {
+      try {
+         Process process = new ProcessBuilder("/usr/bin/defaults", "read", "-g", "AppleInterfaceStyle")
+               .redirectErrorStream(true).start();
+         String output = new String(process.getInputStream().readAllBytes()).trim();
+         return process.waitFor() == 0 && output.equalsIgnoreCase("Dark");
+      }
+      catch (IOException e) {
+         return false;
+      }
+      catch (InterruptedException e) {
+         Thread.currentThread().interrupt();
+         return false;
+      }
    }
 
    private static File choose(Frame parent, String title, int mode, String directory, String name) {

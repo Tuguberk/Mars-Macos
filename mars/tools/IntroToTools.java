@@ -88,7 +88,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          message.setEditable(false);
          message.setLineWrap(true);
          message.setWrapStyleWord(true);
-         message.setFont(new Font("Ariel",Font.PLAIN,12));
+         message.setFont(new Font("Arial",Font.PLAIN,12));
          message.setText(
               "Hello!  This Tool does not do anything but you may use its "+
               "source code as a starting point to build your own MARS Tool "+

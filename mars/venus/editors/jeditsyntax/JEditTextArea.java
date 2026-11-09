@@ -1612,6 +1612,11 @@ public class JEditTextArea extends JComponent
    protected static JEditTextArea focusedComponent;
    protected static Timer caretTimer;
 
+   // On a Mac, Control-click is a right click, so column select uses Option.
+   private static final int RECT_SELECT_MASK =
+      System.getProperty("os.name", "").toLowerCase().startsWith("mac")
+         ? InputEvent.ALT_MASK : InputEvent.CTRL_MASK;
+
    protected TextAreaPainter painter;
 
    protected JPopupMenu popup;
@@ -1988,7 +1993,7 @@ public class JEditTextArea extends JComponent
             return;
       
          setSelectionRectangular((evt.getModifiers()
-            & InputEvent.CTRL_MASK) != 0);
+            & RECT_SELECT_MASK) != 0);
          select(getMarkPosition(),xyToOffset(evt.getX(),evt.getY()));
       }
    
@@ -2078,7 +2083,7 @@ public class JEditTextArea extends JComponent
       {
          if((evt.getModifiers() & InputEvent.SHIFT_MASK) != 0)
          {
-            rectSelect = (evt.getModifiers() & InputEvent.CTRL_MASK) != 0;
+            rectSelect = (evt.getModifiers() & RECT_SELECT_MASK) != 0;
             select(getMarkPosition(),dot);
          }
          else

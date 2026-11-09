@@ -198,8 +198,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Changed default font family from "Courier New" to "Monospaced" after receiving reports that Mac were not
    	// correctly rendering the left parenthesis character in the editor or text segment display.
    	// See http://www.mirthcorp.com/community/issues/browse/MIRTH-1921?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
-      private static final String[] defaultFontFamilySettingsValues = { "Monospaced","Monospaced","Monospaced",
-         "Monospaced","Monospaced","Monospaced","Monospaced"
+      private static final String DEFAULT_FONT_FAMILY =
+         System.getProperty("os.name", "").toLowerCase().startsWith("mac") ? "Menlo" : "Monospaced";
+      private static final String[] defaultFontFamilySettingsValues = { DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,
+         DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY
          };
       private static final String[] defaultFontStyleSettingsValues = {"Plain", "Plain", "Plain", "Plain", 
          "Plain", "Plain", "Plain"
