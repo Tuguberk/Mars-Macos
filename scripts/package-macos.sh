@@ -6,7 +6,7 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
-version="4.6.0"
+version="${MARS_MACOS_VERSION:-4.6.0}"
 arch="$(uname -m)"
 
 if [[ -z "${JAVA_HOME:-}" ]]; then
@@ -18,7 +18,8 @@ scripts/build.sh
 
 out="build/package"
 /bin/rm -rf "$out"
-mkdir -p "$out/input" "$out/icon/Mars-Macos.iconset" "$out/dmg"
+mkdir -p "$out/input" "$out/icon/Mars-Macos.iconset" "$out/dmg" "$out/resources"
+sed "s/@VERSION@/$version/g" packaging/macos/Info.plist > "$out/resources/Info.plist"
 cp build/Mars.jar "$out/input/"
 
 for size in 16 32 128 256 512; do
@@ -38,10 +39,10 @@ iconutil -c icns "$out/icon/Mars-Macos.iconset" -o "$out/icon/Mars-Macos.icns"
   --main-jar Mars.jar \
   --main-class Mars \
   --icon "$out/icon/Mars-Macos.icns" \
-  --resource-dir packaging/macos \
+  --resource-dir "$out/resources" \
   --mac-package-identifier io.github.tuguberk.marsmacos \
   --mac-package-name Mars-Macos \
-  --add-modules java.base,java.desktop,java.logging,java.prefs \
+  --add-modules java.base,java.desktop,java.logging,java.prefs,jdk.crypto.ec \
   --jlink-options "--strip-debug --no-man-pages --no-header-files" \
   --dest "$out"
 

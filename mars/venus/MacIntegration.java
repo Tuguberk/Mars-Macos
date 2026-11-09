@@ -26,6 +26,7 @@ public final class MacIntegration {
    private static final List<File> pendingFiles = new ArrayList<File>();
    private static VenusUI mainUI;
    private static Action openAction;
+   private static Action exitAction;
 
    private MacIntegration() {
    }
@@ -60,6 +61,7 @@ public final class MacIntegration {
       }
       mainUI = ui;
       openAction = open;
+      exitAction = exit;
       ui.getRootPane().putClientProperty("apple.awt.transparentTitleBar", Boolean.TRUE);
       MacTheme.startWatching();
       Desktop desktop = Desktop.getDesktop();
@@ -85,6 +87,12 @@ public final class MacIntegration {
       pendingFiles.clear();
       openFiles(files);
       Workspace.startWatchingFiles(ui);
+      MacUpdater.checkOnStart(ui);
+   }
+
+   /** False if a program runs or the user keeps unsaved work open. */
+   static boolean saveAndCloseForUpdate() {
+      return exitAction.isEnabled() && saveSessionAndCloseAll();
    }
 
    private static boolean saveSessionAndCloseAll() {

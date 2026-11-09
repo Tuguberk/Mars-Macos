@@ -634,6 +634,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          settings.add(MacIntegration.isMac() ? MacTheme.createMenu() : settingsDarkMode);
          if (MacIntegration.isMac()) {
             Workspace.addMenuItems(settings);
+            MacUpdater.addSettingsItem(settings);
          }
          settings.add(settingsEditor);
          settings.add(settingsHighlighting);
@@ -649,6 +650,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          if (!MacIntegration.isMac()) {
             help.addSeparator();
             help.add(helpAbout);
+         }
+         else {
+            MacUpdater.addHelpItem(help, this);
          }
       
          menuBar.add(file);

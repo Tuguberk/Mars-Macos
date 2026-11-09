@@ -1,3 +1,17 @@
+# Mars-Macos
+
+Mars-Macos is an unofficial macOS version of MARS, the MIPS Assembler and Runtime Simulator. It is not made by the MARS authors. MARS was made by Pete Sanderson and Ken Vollmar, and it uses the MIT license (see `MARSlicense.txt`).
+
+It adds a real Mac app, the Mac menu bar, dark mode that follows macOS, Finder file open, reload of files that change on disk, a `mars` terminal command, and updates inside the app.
+
+**Download:** get the `.dmg` file from [Releases](https://github.com/Tuguberk/Mars-Macos/releases/latest). It is for Apple Silicon Macs and has its own Java.
+
+The app has no Apple Developer ID yet, so macOS blocks the first start. Open the app once, then go to System Settings > Privacy & Security and click **Open Anyway**.
+
+The app checks for a new version once a day. You can turn this off in Settings, or check yourself with Help > Check for Updates.
+
+---
+
 # MARS
 MARS (official) MIPS Assembler and Runtime Simulator
 
