@@ -236,7 +236,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	// launching the GUI-fronted integrated development environment.
    	
       private void launchIDE() {
-         // System.setProperty("apple.laf.useScreenMenuBar", "true"); // Puts MARS menu on Mac OS menu bar
+         mars.venus.MacIntegration.prepareBeforeGui();
          new MarsSplashScreen(splashDuration).showSplash();
          SwingUtilities.invokeLater(
                new Runnable() {

@@ -334,6 +334,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             JFileChooser saveDialog = null;
             boolean operationOK = false;
             while (!operationOK) {
+               if (MacIntegration.isMac()) {
+                  String directory = editPane.isNew() ? editor.getCurrentSaveDirectory()
+                                                      : new File(editPane.getPathname()).getParent();
+                  theFile = MacIntegration.chooseFileToSave(mainUI, directory, editPane.getFilename());
+                  if (theFile == null) {
+                     return null;
+                  }
+                  // The native dialog already asked before it replaces a file.
+                  operationOK = true;
+                  continue;
+               }
                // Set Save As dialog directory in a logical way.  If file in
             	// edit pane had been previously saved, default to its directory.  
             	// If a new file (mipsN.asm), default to current save directory.
@@ -570,8 +581,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                fileChooser.setSelectedFile(mostRecentlyOpenedFile);
             }
          
-            if (fileChooser.showOpenDialog(mainUI) == JFileChooser.APPROVE_OPTION) {
-               File theFile = fileChooser.getSelectedFile();
+            File theFile = null;
+            if (MacIntegration.isMac()) {
+               File selected = Globals.getSettings().getAssembleOnOpenEnabled() ? mostRecentlyOpenedFile : null;
+               theFile = MacIntegration.chooseFileToOpen(mainUI, theEditor.getCurrentOpenDirectory(), selected);
+            }
+            else if (fileChooser.showOpenDialog(mainUI) == JFileChooser.APPROVE_OPTION) {
+               theFile = fileChooser.getSelectedFile();
+            }
+            if (theFile != null) {
                theEditor.setCurrentOpenDirectory(theFile.getParent());
                //theEditor.setCurrentSaveDirectory(theFile.getParent());// 13-July-2011 DPS.
                if (!openFile(theFile)) {

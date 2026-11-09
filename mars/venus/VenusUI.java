@@ -229,6 +229,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       
          this.pack();
          this.setVisible(true);
+         MacIntegration.connect(this, fileOpenAction, helpAboutAction, settingsEditorAction, fileExitAction);
       }
    	
    	
@@ -517,8 +518,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
          file.addSeparator();
          file.add(filePrint);
-         file.addSeparator();
-         file.add(fileExit);
+         // On a Mac, Quit is in the application menu.
+         if (!MacIntegration.isMac()) {
+            file.addSeparator();
+            file.add(fileExit);
+         }
       	
          editUndo = new JMenuItem(editUndoAction);
          editUndo.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Undo16.png"))));//"Undo16.gif"))));
@@ -632,8 +636,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          helpAbout = new JMenuItem(helpAboutAction);
          helpAbout.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
          help.add(helpHelp);
-         help.addSeparator();
-         help.add(helpAbout);
+         // On a Mac, About is in the application menu.
+         if (!MacIntegration.isMac()) {
+            help.addSeparator();
+            help.add(helpAbout);
+         }
       
          menuBar.add(file);
          menuBar.add(edit);
