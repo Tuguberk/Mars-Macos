@@ -331,6 +331,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          openFileButton.addActionListener(
                 new ActionListener() {
                    public void actionPerformed(ActionEvent e) {
+                     if (mars.venus.MacIntegration.isMac()) {
+                        String directory = mostRecentlyOpenedFile == null ? null : mostRecentlyOpenedFile.getParent();
+                        File chosen = mars.venus.MacIntegration.chooseFileToOpen(thisMarsApp, directory, mostRecentlyOpenedFile);
+                        if (chosen != null) {
+                           // The native dialog cannot show a check box, so ask after the file is chosen.
+                           multiFileAssemble = JOptionPane.showConfirmDialog(thisMarsApp,
+                              "Assemble all files in the directory of "+chosen.getName()+"?",
+                              "Open MIPS program", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+                           useProgramFile(chosen);
+                        }
+                        return;
+                     }
                      JFileChooser fileChooser = new JFileChooser();
                      JCheckBox multiFileAssembleChoose = new JCheckBox("Assemble all in selected file's directory",multiFileAssemble);
                      multiFileAssembleChoose.setToolTipText("If checked, selected file will be assembled first and all other assembly files in directory will be assembled also.");
@@ -346,19 +358,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                   
                      if (fileChooser.showOpenDialog(thisMarsApp) == JFileChooser.APPROVE_OPTION) {
                         multiFileAssemble = multiFileAssembleChoose.isSelected();
-                        File theFile = fileChooser.getSelectedFile();
-                        try {
-                           theFile = theFile.getCanonicalFile();
-                        } 
-                            catch (IOException ioe) {
-                           // nothing to do, theFile will keep current value
-                           }
-                        String currentFilePath = theFile.getPath();
-                        mostRecentlyOpenedFile = theFile;
-                        operationStatusMessages.setText("File: "+currentFilePath);
-                        operationStatusMessages.setCaretPosition(0);
-                        assembleRunButton.setEnabled(true);
+                        useProgramFile(fileChooser.getSelectedFile());
                      }
+                  }
+
+                   private void useProgramFile(File theFile) {
+                     try {
+                        theFile = theFile.getCanonicalFile();
+                     }
+                         catch (IOException ioe) {
+                        // nothing to do, theFile will keep current value
+                        }
+                     String currentFilePath = theFile.getPath();
+                     mostRecentlyOpenedFile = theFile;
+                     operationStatusMessages.setText("File: "+currentFilePath);
+                     operationStatusMessages.setCaretPosition(0);
+                     assembleRunButton.setEnabled(true);
                   }
                });
          openFileButton.addKeyListener(new EnterKeyListener(openFileButton));

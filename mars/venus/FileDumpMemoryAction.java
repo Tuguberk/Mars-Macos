@@ -217,7 +217,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          File theFile = null;
          JFileChooser saveDialog = null;
          boolean operationOK = false;
-      
+
+         if (MacIntegration.isMac()) {
+            // The native dialog already asks before it replaces a file.
+            theFile = MacIntegration.chooseFileToSave(mainUI, mainUI.getEditor().getCurrentSaveDirectory(), null);
+            if (theFile == null) {
+               return false;
+            }
+            writeDump(theFile, firstAddress, lastAddress, format);
+            return true;
+         }
          saveDialog = new JFileChooser(mainUI.getEditor().getCurrentSaveDirectory());
          saveDialog.setDialogTitle(title);
          while (!operationOK) {
@@ -246,17 +255,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                }
             }
             if (operationOK) {
-               try {
-                  format.dumpMemoryRange(theFile, firstAddress, lastAddress);
-               } 
-                   catch (AddressErrorException aee) {
-                  
-                  } 
-                   catch (IOException ioe) {
-                  }
+               writeDump(theFile, firstAddress, lastAddress, format);
             }
          }
          return true;
+      }
+
+       private void writeDump(File theFile, int firstAddress, int lastAddress, DumpFormat format) {
+         try {
+            format.dumpMemoryRange(theFile, firstAddress, lastAddress);
+         }
+             catch (AddressErrorException aee) {
+
+            }
+             catch (IOException ioe) {
+            }
       }
    	
    	// We're finished with this modal dialog.
