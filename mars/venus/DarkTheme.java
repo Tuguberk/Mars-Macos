@@ -1,5 +1,7 @@
    package mars.venus;
 
+   import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+   import com.formdev.flatlaf.themes.FlatMacLightLaf;
    import java.awt.Window;
    import javax.swing.JCheckBox;
    import javax.swing.JRadioButton;
@@ -32,7 +34,10 @@
             defaultMetalTheme = MetalLookAndFeel.getCurrentTheme();
          }
          try {
-            if (darkMode) {
+            if (MacIntegration.isMac()) {
+               UIManager.setLookAndFeel(darkMode ? new FlatMacDarkLaf() : new FlatMacLightLaf());
+            }
+            else if (darkMode) {
                MetalLookAndFeel.setCurrentTheme(new DarkTheme());
                UIManager.setLookAndFeel(new MetalLookAndFeel());
             }

@@ -112,8 +112,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          Toolkit tk = Toolkit.getDefaultToolkit();
          Class cs = this.getClass(); 
          try {
-            prevButton = new PrevButton(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Previous22.png"))));//"Back16.gif"))));//"Down16.gif"))));
-            nextButton = new NextButton(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Next22.png"))));//"Forward16.gif")))); //"Up16.gif"))));
+            prevButton = new PrevButton(AppIcons.get("Previous22.png"));//"Back16.gif"))));//"Down16.gif"))));
+            nextButton = new NextButton(AppIcons.get("Next22.png"));//"Forward16.gif")))); //"Up16.gif"))));
             //  This group of buttons was replaced by a combo box.  Keep the JButton objects for their action listeners.
             dataButton = new JButton();//".data");
             stakButton = new JButton();//"$sp");
@@ -459,6 +459,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          tablePanel.removeAll();
          tablePanel.add(generateDataPanel()); 
          contentPane.add(tablePanel);
+         // The panel was not in the window at the last theme change, so update it now.
+         SwingUtilities.updateComponentTreeUI(tablePanel);
          enableAllButtons();
       }
       

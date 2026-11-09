@@ -6,14 +6,14 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 import javax.swing.Action;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import mars.Globals;
-import mars.Settings;
 
 /**
  * Connects MARS with the macOS menu bar, Finder, and native file dialogs.
@@ -42,11 +42,7 @@ public final class MacIntegration {
       }
       System.setProperty("apple.laf.useScreenMenuBar", "true");
       System.setProperty("apple.awt.application.name", "Mars-Macos");
-      useSystemThemeUntilUserChooses();
-      if (Globals.getSettings().getBooleanSetting(Settings.DARK_MODE)) {
-         // macOS reads this one time, so the title bar changes at the next start.
-         System.setProperty("apple.awt.application.appearance", "NSAppearanceNameDarkAqua");
-      }
+      MacTheme.prepareBeforeGui();
       Desktop desktop = Desktop.getDesktop();
       if (desktop.isSupported(Desktop.Action.APP_OPEN_FILE)) {
          desktop.setOpenFileHandler(event -> {
@@ -63,6 +59,8 @@ public final class MacIntegration {
       }
       mainUI = ui;
       openAction = open;
+      ui.getRootPane().putClientProperty("apple.awt.transparentTitleBar", Boolean.TRUE);
+      MacTheme.startWatching();
       Desktop desktop = Desktop.getDesktop();
       if (desktop.isSupported(Desktop.Action.APP_ABOUT)) {
          desktop.setAboutHandler(event -> SwingUtilities.invokeLater(() -> run(about)));
@@ -97,26 +95,19 @@ public final class MacIntegration {
       return choose(parent, "Save As", FileDialog.SAVE, directory, name);
    }
 
-   // The Dark mode menu item saves the choice. After that, the saved choice wins.
-   private static void useSystemThemeUntilUserChooses() {
-      if (Preferences.userNodeForPackage(Settings.class).get("DarkMode", null) == null) {
-         Globals.getSettings().setBooleanSettingNonPersistent(Settings.DARK_MODE, isSystemDark());
+   /** A native Mac menu looks best without small pictures next to the items. */
+   static void removeMenuIcons(JMenuBar menuBar) {
+      if (!MAC) {
+         return;
       }
-   }
-
-   private static boolean isSystemDark() {
-      try {
-         Process process = new ProcessBuilder("/usr/bin/defaults", "read", "-g", "AppleInterfaceStyle")
-               .redirectErrorStream(true).start();
-         String output = new String(process.getInputStream().readAllBytes()).trim();
-         return process.waitFor() == 0 && output.equalsIgnoreCase("Dark");
-      }
-      catch (IOException e) {
-         return false;
-      }
-      catch (InterruptedException e) {
-         Thread.currentThread().interrupt();
-         return false;
+      for (int m = 0; m < menuBar.getMenuCount(); m++) {
+         JMenu menu = menuBar.getMenu(m);
+         for (int i = 0; i < menu.getItemCount(); i++) {
+            JMenuItem item = menu.getItem(i);
+            if (item != null) {
+               item.setIcon(null);
+            }
+         }
       }
    }
 

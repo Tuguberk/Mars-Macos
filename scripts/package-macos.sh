@@ -41,13 +41,14 @@ iconutil -c icns "$out/icon/Mars-Macos.iconset" -o "$out/icon/Mars-Macos.icns"
   --resource-dir packaging/macos \
   --mac-package-identifier io.github.tuguberk.marsmacos \
   --mac-package-name Mars-Macos \
-  --add-modules java.base,java.desktop,java.prefs \
+  --add-modules java.base,java.desktop,java.logging,java.prefs \
   --jlink-options "--strip-debug --no-man-pages --no-header-files" \
   --dest "$out"
 
 cp -R "$out/Mars-Macos.app" "$out/dmg/"
 ln -s /Applications "$out/dmg/Applications"
 cp MARSlicense.txt "$out/dmg/LICENSE.txt"
+cp -R lib/licenses "$out/dmg/Third-Party Licenses"
 
 dmg="$out/Mars-Macos-$version-$arch.dmg"
 hdiutil create -quiet -volname "Mars-Macos" -srcfolder "$out/dmg" -ov -format UDZO "$dmg"
