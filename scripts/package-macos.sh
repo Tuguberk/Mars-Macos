@@ -21,13 +21,11 @@ out="build/package"
 mkdir -p "$out/input" "$out/icon/Mars-Macos.iconset" "$out/dmg"
 cp build/Mars.jar "$out/input/"
 
-# The first icon comes from the MARS image. It is small, so it looks soft.
-sips -s format png -z 1024 1024 images/MarsThumbnail.gif --out "$out/icon/base.png" > /dev/null
 for size in 16 32 128 256 512; do
   double=$((size * 2))
-  sips -z "$size" "$size" "$out/icon/base.png" \
+  sips -z "$size" "$size" packaging/macos/icon-1024.png \
     --out "$out/icon/Mars-Macos.iconset/icon_${size}x${size}.png" > /dev/null
-  sips -z "$double" "$double" "$out/icon/base.png" \
+  sips -z "$double" "$double" packaging/macos/icon-1024.png \
     --out "$out/icon/Mars-Macos.iconset/icon_${size}x${size}@2x.png" > /dev/null
 done
 iconutil -c icns "$out/icon/Mars-Macos.iconset" -o "$out/icon/Mars-Macos.icns"
