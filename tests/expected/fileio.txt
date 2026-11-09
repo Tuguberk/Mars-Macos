@@ -1,0 +1,5 @@
+11
+file works
+
+--- stderr ---
+--- exit code: 0 ---

@@ -1,0 +1,6 @@
+42
+some text
+Z
+2.5
+--- stderr ---
+--- exit code: 0 ---

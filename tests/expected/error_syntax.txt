@@ -1,0 +1,6 @@
+Error in <dir>/error_syntax.asm line 4 column 5: "addx" is not a recognized operator
+Error in <dir>/error_syntax.asm line 5 column 13: "$t1": operand is of incorrect type
+
+Processing terminated due to errors.
+--- stderr ---
+--- exit code: 2 ---

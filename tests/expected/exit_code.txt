@@ -1,0 +1,3 @@
+
+--- stderr ---
+--- exit code: 7 ---

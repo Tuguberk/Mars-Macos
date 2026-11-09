@@ -1,0 +1,4 @@
+Hello MARS
+
+--- stderr ---
+--- exit code: 0 ---

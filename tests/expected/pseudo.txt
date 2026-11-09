@@ -1,0 +1,16 @@
+AAA
+BB
+0xdeadbeef
+0xadbeefde
+0xefdeadbe
+15
+15
+14
+1
+0
+0
+-3
+4294967266
+
+--- stderr ---
+--- exit code: 0 ---
