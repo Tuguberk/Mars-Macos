@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,6 +24,8 @@ import mars.Globals;
 public final class MacIntegration {
    private static final boolean MAC =
          System.getProperty("os.name", "").toLowerCase().startsWith("mac");
+   // The Open dialog can select only files with these extensions.
+   private static final Set<String> TEXT_EXTENSIONS = Set.of("asm", "s", "mips", "inc", "txt", "text");
 
    // Finder can send files before the main window exists. Use these on the event thread only.
    private static final List<File> pendingFiles = new ArrayList<File>();
@@ -118,10 +122,18 @@ public final class MacIntegration {
       }
    }
 
+   private static boolean hasTextExtension(String fileName) {
+      int dot = fileName.lastIndexOf('.');
+      return dot >= 0 && TEXT_EXTENSIONS.contains(fileName.substring(dot + 1).toLowerCase(Locale.ROOT));
+   }
+
    private static File choose(Frame parent, String title, int mode, String directory, String name) {
       FileDialog dialog = new FileDialog(parent, title, mode);
       dialog.setDirectory(directory);
       dialog.setFile(name);
+      if (mode == FileDialog.LOAD) {
+         dialog.setFilenameFilter((folder, file) -> hasTextExtension(file));
+      }
       dialog.setVisible(true);
       String chosen = dialog.getFile();
       return chosen == null ? null : new File(dialog.getDirectory(), chosen);
