@@ -10,3 +10,15 @@ MARS (official) MIPS Assembler and Runtime Simulator
  This is the original MARS, developed by Pete Sanderson and Ken Vollmar.  Developed while Pete was professor at Otterbein University and Ken was professor at Missouri State University.  Both are now retired. This is a legacy application but is very stable and continues to be used by universities throughout the world as of 2024. The last release was MARS 4.5 in August 2014.  
  
  Until October 2024 the MARS website, including executable JAR file download, was hosted by Missouri State University. That is no longer the case. That's why it is here.
+
+## Mars-Macos development
+
+Mars-Macos is a macOS fork of MARS. You need JDK 21.
+
+```sh
+git config core.hooksPath .githooks   # run this once after clone
+scripts/build.sh                      # makes build/Mars.jar
+scripts/test.sh                       # compares results with official MARS
+```
+
+The commit hook removes co-author lines. Please write commit messages in simple English.
