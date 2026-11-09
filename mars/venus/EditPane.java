@@ -51,6 +51,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    public class EditPane extends JPanel implements Observer {
    
       private MARSTextEditingArea sourceCode;
+      private boolean replacingSource = false;
       private VenusUI mainUI;
       private String currentDirectoryPath;
       private JLabel caretPositionLabel;
@@ -89,6 +90,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          sourceCode.getDocument().addDocumentListener(
                new DocumentListener() {
                   public void insertUpdate(DocumentEvent evt) {
+                     if (replacingSource) {
+                        return;
+                     }
                      // IF statement added DPS 9-Aug-2011
                   	// This method is triggered when file contents added to document
                   	// upon opening, even though not edited by user.  The IF
@@ -191,6 +195,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	
       public void setSourceCode(String s, boolean editable){
          sourceCode.setSourceCode(s, editable);
+      }
+
+      /** Shows new text from disk. The editor does not count it as a user edit. */
+      void replaceSourceKeepingCaret(String s) {
+         int caret = sourceCode.getCaretPosition();
+         replacingSource = true;
+         try {
+            sourceCode.setSourceCode(s, true);
+         }
+         finally {
+            replacingSource = false;
+         }
+         sourceCode.discardAllUndoableEdits();
+         sourceCode.setCaretPosition(Math.min(caret, s.length()));
+         if (showingLineNumbers()) {
+            lineNumbers.setText(getLineNumbersList(sourceCode.getDocument()));
+         }
       }
       
    	/**

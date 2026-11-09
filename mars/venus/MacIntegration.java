@@ -71,7 +71,7 @@ public final class MacIntegration {
       if (desktop.isSupported(Desktop.Action.APP_QUIT_HANDLER)) {
          desktop.setQuitHandler((event, response) -> SwingUtilities.invokeLater(() -> {
             // Exit is disabled while a program runs. Quit must follow the same rule.
-            if (exit.isEnabled() && mainUI.getEditor().closeAll()) {
+            if (exit.isEnabled() && saveSessionAndCloseAll()) {
                response.performQuit();
             }
             else {
@@ -79,9 +79,16 @@ public final class MacIntegration {
             }
          }));
       }
+      MacWorkspace.restoreSession(ui);
       List<File> files = new ArrayList<File>(pendingFiles);
       pendingFiles.clear();
       openFiles(files);
+      MacWorkspace.startWatchingFiles(ui);
+   }
+
+   private static boolean saveSessionAndCloseAll() {
+      MacWorkspace.saveSession(mainUI);
+      return mainUI.getEditor().closeAll();
    }
 
    /** Shows the native Open dialog. Returns null if the user cancels. */

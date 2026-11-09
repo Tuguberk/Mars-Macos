@@ -217,6 +217,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          this.addWindowListener(
                 new WindowAdapter() {
                    public void windowClosing(WindowEvent e) {
+                     MacWorkspace.saveSession(mainUI);
                      if (mainUI.editor.closeAll()) {
                         System.exit(0);
                      } 
@@ -635,6 +636,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          settings.add(settingsSelfModifyingCode);
          settings.addSeparator();
          settings.add(MacIntegration.isMac() ? MacTheme.createMenu() : settingsDarkMode);
+         if (MacIntegration.isMac()) {
+            MacWorkspace.addMenuItems(settings);
+         }
          settings.add(settingsEditor);
          settings.add(settingsHighlighting);
          settings.add(settingsExceptionHandler);
