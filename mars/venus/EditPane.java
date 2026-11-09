@@ -608,6 +608,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    
    	 
    	
+      /**
+       *  Use the colors of the current theme in this editor.
+       */
+      public void updateThemeColors() {
+         sourceCode.updateSyntaxStyles();
+      }
+
    	/**
    	 *  Update, if source code is visible, when Font setting changes.
    	 *  This method is specified by the Observer interface.

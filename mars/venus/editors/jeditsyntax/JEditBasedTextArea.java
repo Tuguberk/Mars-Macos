@@ -126,9 +126,11 @@
          painter.setCaretColor(colors.caretColor);
          painter.setSelectionColor(colors.selectionColor);
          painter.setLineHighlightColor(colors.lineHighlightColor);
+         this.setBackground(isEditable() ? colors.backgroundColor : Color.GRAY);
+         painter.repaint();
       }
-   
-   	    	
+
+
        public Component getOuterComponent() {
          return this;
       }
@@ -174,7 +176,7 @@
      //
        public void setSourceCode(String s, boolean editable) {       
          this.setText(s);
-         this.setBackground( (editable)? Color.WHITE : Color.GRAY);
+         this.setBackground( (editable)? TextAreaDefaults.getColorDefaults().backgroundColor : Color.GRAY);
          this.setEditable(editable);  
          this.setEnabled(editable);
          //this.getCaret().setVisible(editable);

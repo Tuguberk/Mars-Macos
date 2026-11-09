@@ -5,6 +5,7 @@
    import java.awt.Window;
    import javax.swing.JCheckBox;
    import javax.swing.JRadioButton;
+   import javax.swing.JTabbedPane;
    import javax.swing.JToggleButton;
    import javax.swing.SwingUtilities;
    import javax.swing.UIDefaults;
@@ -13,6 +14,7 @@
    import javax.swing.plaf.metal.DefaultMetalTheme;
    import javax.swing.plaf.metal.MetalLookAndFeel;
    import javax.swing.plaf.metal.MetalTheme;
+   import mars.Globals;
 
     public class DarkTheme extends DefaultMetalTheme {
 
@@ -53,6 +55,20 @@
          Window[] windows = Window.getWindows();
          for (int i = 0; i < windows.length; i++) {
             SwingUtilities.updateComponentTreeUI(windows[i]);
+         }
+         updateOpenEditors();
+      }
+
+       private static void updateOpenEditors() {
+         VenusUI ui = Globals.getGui();
+         if (ui == null || ui.getMainPane() == null) {
+            return;
+         }
+         JTabbedPane tabs = (JTabbedPane) ui.getMainPane().getEditTabbedPane();
+         for (int i = 0; i < tabs.getTabCount(); i++) {
+            if (tabs.getComponentAt(i) instanceof EditPane) {
+               ((EditPane) tabs.getComponentAt(i)).updateThemeColors();
+            }
          }
       }
 
