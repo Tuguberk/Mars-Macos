@@ -46,6 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		 * Exit MARS, unless one or more files have unsaved edits and user cancels.
 		 */	  
        public void actionPerformed(ActionEvent e){
+		    Workspace.saveSession(mainUI);
 		    if (mainUI.editor.closeAll()) {
              System.exit(0);
 			 }

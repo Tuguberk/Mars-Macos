@@ -1,15 +1,12 @@
 package mars.venus;
 
 import java.awt.Desktop;
-import java.awt.FileDialog;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,14 +15,12 @@ import javax.swing.SwingUtilities;
 import mars.Globals;
 
 /**
- * Connects MARS with the macOS menu bar, Finder, and native file dialogs.
+ * Connects MARS with the macOS menu bar and Finder.
  * Every public method does nothing special on other systems.
  */
 public final class MacIntegration {
    private static final boolean MAC =
          System.getProperty("os.name", "").toLowerCase().startsWith("mac");
-   // The Open dialog can select only files with these extensions.
-   private static final Set<String> TEXT_EXTENSIONS = Set.of("asm", "s", "mips", "inc", "txt", "text");
 
    // Finder can send files before the main window exists. Use these on the event thread only.
    private static final List<File> pendingFiles = new ArrayList<File>();
@@ -59,6 +54,8 @@ public final class MacIntegration {
    /** Call this on the event thread when the main window is ready. */
    public static void connect(VenusUI ui, Action open, Action about, Action settings, Action exit) {
       if (!MAC) {
+         Workspace.restoreSession(ui);
+         Workspace.startWatchingFiles(ui);
          return;
       }
       mainUI = ui;
@@ -83,27 +80,16 @@ public final class MacIntegration {
             }
          }));
       }
-      MacWorkspace.restoreSession(ui);
+      Workspace.restoreSession(ui);
       List<File> files = new ArrayList<File>(pendingFiles);
       pendingFiles.clear();
       openFiles(files);
-      MacWorkspace.startWatchingFiles(ui);
+      Workspace.startWatchingFiles(ui);
    }
 
    private static boolean saveSessionAndCloseAll() {
-      MacWorkspace.saveSession(mainUI);
+      Workspace.saveSession(mainUI);
       return mainUI.getEditor().closeAll();
-   }
-
-   /** Shows the native Open dialog. Returns null if the user cancels. */
-   public static File chooseFileToOpen(Frame parent, String directory, File selected) {
-      return choose(parent, "Open", FileDialog.LOAD, directory,
-            selected == null ? null : selected.getName());
-   }
-
-   /** Shows the native Save dialog. It asks before it replaces a file. */
-   public static File chooseFileToSave(Frame parent, String directory, String name) {
-      return choose(parent, "Save As", FileDialog.SAVE, directory, name);
    }
 
    /** A native Mac menu looks best without small pictures next to the items. */
@@ -120,23 +106,6 @@ public final class MacIntegration {
             }
          }
       }
-   }
-
-   private static boolean hasTextExtension(String fileName) {
-      int dot = fileName.lastIndexOf('.');
-      return dot >= 0 && TEXT_EXTENSIONS.contains(fileName.substring(dot + 1).toLowerCase(Locale.ROOT));
-   }
-
-   private static File choose(Frame parent, String title, int mode, String directory, String name) {
-      FileDialog dialog = new FileDialog(parent, title, mode);
-      dialog.setDirectory(directory);
-      dialog.setFile(name);
-      if (mode == FileDialog.LOAD) {
-         dialog.setFilenameFilter((folder, file) -> hasTextExtension(file));
-      }
-      dialog.setVisible(true);
-      String chosen = dialog.getFile();
-      return chosen == null ? null : new File(dialog.getDirectory(), chosen);
    }
 
    private static void openFiles(List<File> files) {

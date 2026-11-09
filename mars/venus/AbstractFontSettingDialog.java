@@ -45,6 +45,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     public abstract class AbstractFontSettingDialog extends JDialog  {
     
       JDialog editorDialog;
+      private final MacFontPanel macFontPanel = new MacFontPanel(this::useFontFromMacPanel);
       JComboBox fontFamilySelector, fontStyleSelector;
       JSlider fontSizeSelector;
       JSpinner fontSizeSpinSelector;
@@ -152,6 +153,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          sizeComponents.add(new JLabel("Font Size "));
          sizeComponents.add(fontSizeSelector);
          sizeComponents.add(fontSizeSpinSelector);
+         if (MacIntegration.isMac()) {
+            JButton showFonts = new JButton("Show Fonts...");
+            showFonts.setToolTipText("Open the macOS Fonts panel");
+            showFonts.addActionListener(
+                new ActionListener() {
+                   public void actionPerformed(ActionEvent e) {
+                     macFontPanel.show(getFont());
+                  }
+               });
+            sizeComponents.add(showFonts);
+         }
      	   JPanel sizeAndSample = new JPanel(new GridLayout(2,1,4,8));
 			sizeAndSample.add(sizeComponents);
 			sizeAndSample.add(fontSample);
@@ -178,6 +190,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          apply(this.getFont());
       }
    	    	
+       private void useFontFromMacPanel(String family, int style, int size) {
+         fontFamilySelector.setSelectedItem(family);
+         fontStyleSelector.setSelectedItem(EditorFont.styleIntToStyleString(style));
+         fontSizeSpinSelector.setValue(Integer.valueOf(Math.max(EditorFont.MIN_SIZE, Math.min(EditorFont.MAX_SIZE, size))));
+      }
+
+       public void setVisible(boolean visible) {
+         if (!visible) {
+            macFontPanel.close();
+         }
+         super.setVisible(visible);
+      }
+
    	// We're finished with this modal dialog.
        protected void closeDialog() {
          this.setVisible(false);

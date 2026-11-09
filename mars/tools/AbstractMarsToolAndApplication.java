@@ -1,7 +1,6 @@
    package mars.tools;
    import javax.swing.*;
    import javax.swing.border.*;
-   import javax.swing.filechooser.FileFilter;
    import java.awt.*;
    import java.awt.event.*;
    import java.util.*;
@@ -331,34 +330,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          openFileButton.addActionListener(
                 new ActionListener() {
                    public void actionPerformed(ActionEvent e) {
-                     if (mars.venus.MacIntegration.isMac()) {
-                        String directory = mostRecentlyOpenedFile == null ? null : mostRecentlyOpenedFile.getParent();
-                        File chosen = mars.venus.MacIntegration.chooseFileToOpen(thisMarsApp, directory, mostRecentlyOpenedFile);
-                        if (chosen != null) {
-                           // The native dialog cannot show a check box, so ask after the file is chosen.
-                           multiFileAssemble = JOptionPane.showConfirmDialog(thisMarsApp,
-                              "Assemble all files in the directory of "+chosen.getName()+"?",
-                              "Open MIPS program", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-                           useProgramFile(chosen);
-                        }
-                        return;
-                     }
-                     JFileChooser fileChooser = new JFileChooser();
-                     JCheckBox multiFileAssembleChoose = new JCheckBox("Assemble all in selected file's directory",multiFileAssemble);
-                     multiFileAssembleChoose.setToolTipText("If checked, selected file will be assembled first and all other assembly files in directory will be assembled also.");
-                     fileChooser.setAccessory(multiFileAssembleChoose);
-                     if (mostRecentlyOpenedFile != null) {
-                        fileChooser.setSelectedFile(mostRecentlyOpenedFile);
-                     }
-                     // DPS 13 June 2007.  The next 4 lines add file filter to file chooser.
-                     FileFilter defaultFileFilter = FilenameFinder.getFileFilter(Globals.fileExtensions, "Assembler Files", true);
-                     fileChooser.addChoosableFileFilter(defaultFileFilter); 
-                     fileChooser.addChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
-                     fileChooser.setFileFilter(defaultFileFilter);      
-                  
-                     if (fileChooser.showOpenDialog(thisMarsApp) == JFileChooser.APPROVE_OPTION) {
-                        multiFileAssemble = multiFileAssembleChoose.isSelected();
-                        useProgramFile(fileChooser.getSelectedFile());
+                     String directory = mostRecentlyOpenedFile == null ? null : mostRecentlyOpenedFile.getParent();
+                     File chosen = mars.venus.FilePicker.open(thisMarsApp, directory, mostRecentlyOpenedFile);
+                     if (chosen != null) {
+                        // The system window cannot show a check box, so ask after the file is chosen.
+                        multiFileAssemble = JOptionPane.showConfirmDialog(thisMarsApp,
+                           "Assemble all files in the directory of "+chosen.getName()+"?",
+                           "Open MIPS program", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+                        useProgramFile(chosen);
                      }
                   }
 

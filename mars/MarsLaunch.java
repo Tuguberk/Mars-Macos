@@ -246,8 +246,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                      if (MacIntegration.isMac()) {
                         MacTheme.applyStartTheme();
                      }
-                     else if (Globals.getSettings().getBooleanSetting(Settings.DARK_MODE)) {
-                        DarkTheme.apply(true);
+                     else {
+                        DarkTheme.apply(Globals.getSettings().getBooleanSetting(Settings.DARK_MODE));
                      }
                      new VenusUI("MARS "+Globals.version);
                   }

@@ -17,7 +17,7 @@ import mars.Globals;
 import mars.Settings;
 
 /** Remembers open files, reloads files that change on disk, and installs the mars command. */
-public final class MacWorkspace {
+public final class Workspace {
    private static final String FILES_KEY = "MacSessionFiles";
    private static final String ACTIVE_KEY = "MacSessionActive";
    private static final int CHECK_EVERY_MILLIS = 1000;
@@ -31,16 +31,13 @@ public final class MacWorkspace {
    private static final Map<EditPane, DiskState> diskStates = new WeakHashMap<EditPane, DiskState>();
    private static boolean asking;
 
-   private MacWorkspace() {
+   private Workspace() {
    }
 
    // ---- Session ----
 
    /** Remembers the open files. Call this before the tabs close. */
    static void saveSession(VenusUI ui) {
-      if (!MacIntegration.isMac()) {
-         return;
-      }
       EditTabbedPane tabs = tabs(ui);
       StringBuilder files = new StringBuilder();
       for (int i = 0; i < tabs.getTabCount(); i++) {

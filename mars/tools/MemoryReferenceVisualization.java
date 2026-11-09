@@ -638,7 +638,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                                              ((counterValue==highEnd) 
                            					    ? "value "+counterValue 
                            						 : "range "+counterValue+"-"+highEnd);
-                        Color newColor = JColorChooser.showDialog(theWindow, dialogLabel, counterColorScale.getColor(counterValue));
+                        Color newColor = mars.venus.ColorPicker.choose(theWindow, dialogLabel, counterColorScale.getColor(counterValue));
                         if (newColor != null && !newColor.equals(counterColorScale.getColor(counterValue))) {
                            counterColorScale.insertOrReplace(new CounterColor(counterValue,newColor));
                            currentColorButton.setBackground(newColor);

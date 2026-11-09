@@ -545,8 +545,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          lineColorSetting.addActionListener(
                 new ActionListener() {
                    public void actionPerformed(ActionEvent e) {
-                     Color newColor = JColorChooser.showDialog(dialog, "Scribbler line color", lineColorSetting.getBackground());
-                     lineColorSetting.setBackground(newColor);
+                     Color newColor = mars.venus.ColorPicker.choose(dialog, "Scribbler line color", lineColorSetting.getBackground());
+                     if (newColor != null) {
+                        lineColorSetting.setBackground(newColor);
+                     }
                   }
                });
          scribblerLineColorSetting = lineColorSetting.getBackground();

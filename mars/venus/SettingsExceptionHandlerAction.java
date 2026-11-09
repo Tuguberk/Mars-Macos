@@ -158,26 +158,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	// Associated action class: selecting exception handler file.  Attached to handler selector.
        private class ExceptionHandlerSelectionAction implements ActionListener {
           public void actionPerformed(ActionEvent e) {
-            if (MacIntegration.isMac()) {
-               String current = Globals.getSettings().getExceptionHandler();
-               File selected = (current == null || !new File(current).exists()) ? null : new File(current);
-               File chosen = MacIntegration.chooseFileToOpen(Globals.getGui(),
-                  selected == null ? null : selected.getParent(), selected);
-               if (chosen != null) {
-                  exceptionHandlerDisplay.setText(chosen.getPath());
-               }
-               return;
-            }
-            JFileChooser chooser = new JFileChooser();
-            String pathname = Globals.getSettings().getExceptionHandler();
-            if (pathname != null) {
-               File file = new File(pathname);
-               if (file.exists()) chooser.setSelectedFile(file);
-            }
-            int result = chooser.showOpenDialog(Globals.getGui());
-            if (result == JFileChooser.APPROVE_OPTION) {
-               pathname = chooser.getSelectedFile().getPath();//.replaceAll("\\\\","/");
-               exceptionHandlerDisplay.setText(pathname);
+            String current = Globals.getSettings().getExceptionHandler();
+            File selected = (current == null || !new File(current).exists()) ? null : new File(current);
+            File chosen = FilePicker.open(Globals.getGui(), selected == null ? null : selected.getParent(), selected);
+            if (chosen != null) {
+               exceptionHandlerDisplay.setText(chosen.getPath());
             }
          }
       }

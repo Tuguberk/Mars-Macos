@@ -414,7 +414,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
           public void actionPerformed(ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            Color newColor = JColorChooser.showDialog(null, "Set Background Color", button.getBackground());
+            Color newColor = ColorPicker.choose(button, "Set Background Color", button.getBackground());
             if (newColor != null) {
                button.setBackground(newColor);
                currentNondefaultBackground[position] = newColor;
@@ -434,7 +434,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
           public void actionPerformed(ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            Color newColor = JColorChooser.showDialog(null, "Set Text Color", button.getBackground());
+            Color newColor = ColorPicker.choose(button, "Set Text Color", button.getBackground());
             if (newColor != null) {
                button.setBackground(newColor);
                currentNondefaultForeground[position] = newColor;

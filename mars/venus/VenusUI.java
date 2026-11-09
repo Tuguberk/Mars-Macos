@@ -217,7 +217,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          this.addWindowListener(
                 new WindowAdapter() {
                    public void windowClosing(WindowEvent e) {
-                     MacWorkspace.saveSession(mainUI);
+                     Workspace.saveSession(mainUI);
                      if (mainUI.editor.closeAll()) {
                         System.exit(0);
                      } 
@@ -241,8 +241,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      * disabled, etc.
      */
        private void createActionObjects() {
-         Toolkit tk = Toolkit.getDefaultToolkit();
-         Class cs = this.getClass(); 
          try {
             fileNewAction = new FileNewAction("New", 
                                             AppIcons.get("New22.png"),
@@ -475,8 +473,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
        private JMenuBar setUpMenuBar() {
       
-         Toolkit tk = Toolkit.getDefaultToolkit();
-         Class cs = this.getClass(); 
          JMenuBar menuBar = new JMenuBar();
          file=new JMenu("File");
          file.setMnemonic(KeyEvent.VK_F);
@@ -493,25 +489,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       	// slight bug: user typing alt-H activates help menu item directly, not help menu
       
          fileNew = new JMenuItem(fileNewAction);
-         fileNew.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"New16.png"))));
+         fileNew.setIcon(AppIcons.get("New16.png"));
          fileOpen = new JMenuItem(fileOpenAction);
-         fileOpen.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Open16.png"))));
+         fileOpen.setIcon(AppIcons.get("Open16.png"));
          fileClose = new JMenuItem(fileCloseAction);
-         fileClose.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         fileClose.setIcon(AppIcons.get("MyBlank16.gif"));
          fileCloseAll = new JMenuItem(fileCloseAllAction);
-         fileCloseAll.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         fileCloseAll.setIcon(AppIcons.get("MyBlank16.gif"));
          fileSave = new JMenuItem(fileSaveAction);
-         fileSave.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Save16.png"))));
+         fileSave.setIcon(AppIcons.get("Save16.png"));
          fileSaveAs = new JMenuItem(fileSaveAsAction);
-         fileSaveAs.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"SaveAs16.png"))));
+         fileSaveAs.setIcon(AppIcons.get("SaveAs16.png"));
          fileSaveAll = new JMenuItem(fileSaveAllAction);
-         fileSaveAll.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         fileSaveAll.setIcon(AppIcons.get("MyBlank16.gif"));
          fileDumpMemory = new JMenuItem(fileDumpMemoryAction);
-         fileDumpMemory.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Dump16.png"))));
+         fileDumpMemory.setIcon(AppIcons.get("Dump16.png"));
          filePrint = new JMenuItem(filePrintAction);
-         filePrint.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Print16.gif"))));
+         filePrint.setIcon(AppIcons.get("Print16.gif"));
          fileExit = new JMenuItem(fileExitAction);
-         fileExit.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         fileExit.setIcon(AppIcons.get("MyBlank16.gif"));
          file.add(fileNew);
          file.add(fileOpen);
          file.add(fileClose);
@@ -532,19 +528,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
       	
          editUndo = new JMenuItem(editUndoAction);
-         editUndo.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Undo16.png"))));//"Undo16.gif"))));
+         editUndo.setIcon(AppIcons.get("Undo16.png"));//"Undo16.gif"))));
          editRedo = new JMenuItem(editRedoAction);
-         editRedo.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Redo16.png"))));//"Redo16.gif"))));      
+         editRedo.setIcon(AppIcons.get("Redo16.png"));//"Redo16.gif"))));      
          editCut = new JMenuItem(editCutAction);
-         editCut.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Cut16.gif"))));
+         editCut.setIcon(AppIcons.get("Cut16.gif"));
          editCopy = new JMenuItem(editCopyAction);
-         editCopy.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Copy16.png"))));//"Copy16.gif"))));
+         editCopy.setIcon(AppIcons.get("Copy16.png"));//"Copy16.gif"))));
          editPaste = new JMenuItem(editPasteAction);
-         editPaste.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Paste16.png"))));//"Paste16.gif"))));
+         editPaste.setIcon(AppIcons.get("Paste16.png"));//"Paste16.gif"))));
          editFindReplace = new JMenuItem(editFindReplaceAction);
-         editFindReplace.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Find16.png"))));//"Paste16.gif"))));
+         editFindReplace.setIcon(AppIcons.get("Find16.png"));//"Paste16.gif"))));
          editSelectAll = new JMenuItem(editSelectAllAction);
-         editSelectAll.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         editSelectAll.setIcon(AppIcons.get("MyBlank16.gif"));
          edit.add(editUndo);
          edit.add(editRedo);
          edit.addSeparator();
@@ -556,23 +552,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          edit.add(editSelectAll);
       
          runAssemble = new JMenuItem(runAssembleAction);
-         runAssemble.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Assemble16.png"))));//"MyAssemble16.gif"))));
+         runAssemble.setIcon(AppIcons.get("Assemble16.png"));//"MyAssemble16.gif"))));
          runGo = new JMenuItem(runGoAction);
-         runGo.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Play16.png"))));//"Play16.gif"))));
+         runGo.setIcon(AppIcons.get("Play16.png"));//"Play16.gif"))));
          runStep = new JMenuItem(runStepAction);
-         runStep.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"StepForward16.png"))));//"MyStepForward16.gif"))));
+         runStep.setIcon(AppIcons.get("StepForward16.png"));//"MyStepForward16.gif"))));
          runBackstep = new JMenuItem(runBackstepAction);
-         runBackstep.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"StepBack16.png"))));//"MyStepBack16.gif"))));
+         runBackstep.setIcon(AppIcons.get("StepBack16.png"));//"MyStepBack16.gif"))));
          runReset = new JMenuItem(runResetAction);
-         runReset.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Reset16.png"))));//"MyReset16.gif"))));
+         runReset.setIcon(AppIcons.get("Reset16.png"));//"MyReset16.gif"))));
          runStop = new JMenuItem(runStopAction);
-         runStop.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Stop16.png"))));//"Stop16.gif"))));
+         runStop.setIcon(AppIcons.get("Stop16.png"));//"Stop16.gif"))));
          runPause = new JMenuItem(runPauseAction);
-         runPause.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Pause16.png"))));//"Pause16.gif"))));
+         runPause.setIcon(AppIcons.get("Pause16.png"));//"Pause16.gif"))));
          runClearBreakpoints = new JMenuItem(runClearBreakpointsAction);
-         runClearBreakpoints.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         runClearBreakpoints.setIcon(AppIcons.get("MyBlank16.gif"));
          runToggleBreakpoints = new JMenuItem(runToggleBreakpointsAction);
-         runToggleBreakpoints.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         runToggleBreakpoints.setIcon(AppIcons.get("MyBlank16.gif"));
       
          run.add(runAssemble);
          run.add(runGo);
@@ -637,7 +633,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          settings.addSeparator();
          settings.add(MacIntegration.isMac() ? MacTheme.createMenu() : settingsDarkMode);
          if (MacIntegration.isMac()) {
-            MacWorkspace.addMenuItems(settings);
+            Workspace.addMenuItems(settings);
          }
          settings.add(settingsEditor);
          settings.add(settingsHighlighting);
@@ -645,9 +641,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          settings.add(settingsMemoryConfiguration);
       			
          helpHelp = new JMenuItem(helpHelpAction);
-         helpHelp.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"Help16.png"))));//"Help16.gif"))));
+         helpHelp.setIcon(AppIcons.get("Help16.png"));//"Help16.gif"))));
          helpAbout = new JMenuItem(helpAboutAction);
-         helpAbout.setIcon(new ImageIcon(tk.getImage(cs.getResource(Globals.imagesPath+"MyBlank16.gif"))));
+         helpAbout.setIcon(AppIcons.get("MyBlank16.gif"));
          help.add(helpHelp);
          // On a Mac, About is in the application menu.
          if (!MacIntegration.isMac()) {

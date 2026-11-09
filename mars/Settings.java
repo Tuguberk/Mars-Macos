@@ -199,7 +199,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	// correctly rendering the left parenthesis character in the editor or text segment display.
    	// See http://www.mirthcorp.com/community/issues/browse/MIRTH-1921?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
       private static final String DEFAULT_FONT_FAMILY =
-         System.getProperty("os.name", "").toLowerCase().startsWith("mac") ? "Menlo" : "Monospaced";
+         defaultFontFamily();
+      private static String defaultFontFamily() {
+         String os = System.getProperty("os.name", "").toLowerCase();
+         return os.startsWith("mac") ? "Menlo" : os.startsWith("windows") ? "Consolas" : "Monospaced";
+      }
+
       private static final String[] defaultFontFamilySettingsValues = { DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,
          DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY,DEFAULT_FONT_FAMILY
          };
