@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="Mars-Macos: the MIPS simulator, made for your Mac">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2342"/>
+      <stop offset="0.6" stop-color="#10152c"/>
+      <stop offset="1" stop-color="#0a0d1d"/>
+    </linearGradient>
+    <radialGradient id="planet" cx="0.34" cy="0.3" r="0.85">
+      <stop offset="0" stop-color="#f6a35f"/>
+      <stop offset="0.45" stop-color="#d9622b"/>
+      <stop offset="0.8" stop-color="#7a2c14"/>
+      <stop offset="1" stop-color="#2a0f0a"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.55" stop-color="#ef7a3a" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#ef7a3a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ffc79c"/>
+    </linearGradient>
+    <clipPath id="sphere"><circle cx="1020" cy="210" r="168"/></clipPath>
+    <clipPath id="card"><rect width="1280" height="420" rx="28"/></clipPath>
+  </defs>
+  <g clip-path="url(#card)">
+    <rect width="1280" height="420" fill="url(#sky)"/>
+    <g fill="#ffffff">
+      <circle cx="96" cy="58" r="1.6" opacity=".7"/><circle cx="244" cy="30" r="1.1" opacity=".5"/>
+      <circle cx="402" cy="72" r="1.4" opacity=".6"/><circle cx="566" cy="36" r="1.8" opacity=".8"/>
+      <circle cx="702" cy="88" r="1.1" opacity=".5"/><circle cx="812" cy="40" r="1.5" opacity=".7"/>
+      <circle cx="1230" cy="66" r="1.7" opacity=".8"/><circle cx="1244" cy="310" r="1.2" opacity=".5"/>
+      <circle cx="790" cy="372" r="1.6" opacity=".7"/><circle cx="640" cy="392" r="1.1" opacity=".5"/>
+      <circle cx="418" cy="384" r="1.4" opacity=".6"/><circle cx="62" cy="360" r="1.2" opacity=".5"/>
+      <circle cx="770" cy="232" r="1.2" opacity=".6"/><circle cx="830" cy="150" r="1.7" opacity=".7"/>
+    </g>
+    <circle cx="1020" cy="210" r="250" fill="url(#glow)"/>
+    <circle cx="1020" cy="210" r="168" fill="url(#planet)"/>
+    <g clip-path="url(#sphere)">
+      <ellipse cx="1020" cy="50" rx="74" ry="26" fill="#fde8d8" opacity=".85"/>
+      <ellipse cx="985" cy="150" rx="102" ry="16" fill="#8a3c1b" opacity=".32"/>
+      <ellipse cx="972" cy="218" rx="122" ry="26" fill="#5e2410" opacity=".48"/>
+      <ellipse cx="1072" cy="280" rx="94" ry="22" fill="#4a1b0c" opacity=".5"/>
+      <circle cx="936" cy="112" r="19" fill="#6d2a13" opacity=".72"/>
+      <circle cx="1048" cy="152" r="14" fill="#5e2410" opacity=".78"/>
+      <circle cx="1094" cy="220" r="21" fill="#54200e" opacity=".72"/>
+      <circle cx="930" cy="272" r="16" fill="#5e2410" opacity=".78"/>
+      <circle cx="1024" cy="318" r="17" fill="#471a0b" opacity=".78"/>
+    </g>
+    <text x="76" y="158" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="84" font-weight="700" letter-spacing="-2" fill="url(#title)">Mars-Macos</text>
+    <text x="78" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" fill="#c9d1e8">The MIPS simulator, made for your Mac.</text>
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="20">
+      <rect x="78" y="252" width="440" height="106" rx="14" fill="#ffffff" fill-opacity=".06" stroke="#ffffff" stroke-opacity=".12"/>
+      <text x="102" y="288"><tspan fill="#ff9d66">li</tspan><tspan x="190" fill="#8fb8ff">$v0</tspan><tspan fill="#c9d1e8">, 4</tspan></text>
+      <text x="102" y="316"><tspan fill="#ff9d66">la</tspan><tspan x="190" fill="#8fb8ff">$a0</tspan><tspan fill="#c9d1e8">, hello</tspan></text>
+      <text x="102" y="344"><tspan fill="#ff9d66">syscall</tspan><tspan x="220" fill="#76809c"># Hello, Mars</tspan></text>
+    </g>
+  </g>
+</svg>

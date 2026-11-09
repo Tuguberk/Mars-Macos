@@ -26,7 +26,7 @@ done
 cp -R lib/licenses "$stage/"
 
 # Copy the same files as upstream CreateMarsJar.bat, but not the old classes.
-tar --exclude='*.class' -cf - Mars.java docs help images mars | tar -xf - -C "$stage"
+tar --exclude='*.class' -cf - Mars.java docs help images mars skills | tar -xf - -C "$stage"
 cp PseudoOps.txt Config.properties Syscall.properties Settings.properties \
   MARSlicense.txt mainclass.txt MipsXRayOpcode.xml registerDatapath.xml \
   controlDatapath.xml ALUcontrolDatapath.xml "$stage/"

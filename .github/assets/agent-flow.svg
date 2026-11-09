@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="240" viewBox="0 0 1280 240" role="img" aria-label="You ask an AI agent, the agent reads the mars-mips skill, MARS runs your program, and the agent gets real registers, memory, and errors.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2342"/>
+      <stop offset="1" stop-color="#0a0d1d"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ff9d66"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="240" rx="24" fill="url(#bg)"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" text-anchor="middle">
+    <g fill="#ffffff" fill-opacity=".07" stroke="#ffffff" stroke-opacity=".16">
+      <rect x="40" y="50" width="250" height="140" rx="16"/>
+      <rect x="350" y="50" width="250" height="140" rx="16"/>
+      <rect x="660" y="50" width="250" height="140" rx="16"/>
+      <rect x="970" y="50" width="270" height="140" rx="16"/>
+    </g>
+    <g font-size="15" font-weight="700" fill="#ff9d66">
+      <text x="165" y="86">1</text><text x="475" y="86">2</text><text x="785" y="86">3</text><text x="1105" y="86">4</text>
+    </g>
+    <g font-size="25" font-weight="650" fill="#ffffff">
+      <text x="165" y="124">You ask</text><text x="475" y="124">Agent reads skill</text>
+      <text x="785" y="124">MARS runs it</text><text x="1105" y="124">Real results</text>
+    </g>
+    <g font-size="17" fill="#aeb8d4">
+      <text x="165" y="158">"Why is $t0 wrong?"</text><text x="475" y="158">mars-mips</text>
+      <text x="785" y="158">your .asm file</text><text x="1105" y="158">registers, memory, errors</text>
+    </g>
+  </g>
+  <g stroke="#ff9d66" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="298" y1="120" x2="342" y2="120"/><line x1="608" y1="120" x2="652" y2="120"/><line x1="918" y1="120" x2="962" y2="120"/>
+  </g>
+</svg>

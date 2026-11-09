@@ -57,6 +57,7 @@ public final class MacIntegration {
       if (!MAC) {
          Workspace.restoreSession(ui);
          Workspace.startWatchingFiles(ui);
+         AgentSkill.installOnStart(ui);
          return;
       }
       mainUI = ui;
@@ -88,6 +89,7 @@ public final class MacIntegration {
       openFiles(files);
       Workspace.startWatchingFiles(ui);
       MacUpdater.checkOnStart(ui);
+      AgentSkill.installOnStart(ui);
    }
 
    /** False if a program runs or the user keeps unsaved work open. */

@@ -632,6 +632,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          settings.add(settingsSelfModifyingCode);
          settings.addSeparator();
          settings.add(MacIntegration.isMac() ? MacTheme.createMenu() : settingsDarkMode);
+         AgentSkill.addSettingsItem(settings);
          if (MacIntegration.isMac()) {
             Workspace.addMenuItems(settings);
             MacUpdater.addSettingsItem(settings);
