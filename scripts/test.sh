@@ -38,7 +38,7 @@ run_program() {
     echo "--- stderr ---"
     cat "$out.stderr"
     echo "--- exit code: $code ---"
-  } | tr -d '\r' | sed "s#$run_dir#<dir>#g"
+  } | tr -d '\r' | sed -E -e "s#$run_dir#<dir>#g" -e 's#[A-Za-z]:\\[^ ]*\\run\\[^\\]+\\#<dir>/#g'
 }
 
 programs=()
