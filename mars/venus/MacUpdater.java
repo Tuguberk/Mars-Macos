@@ -39,7 +39,8 @@ import mars.Globals;
  */
 final class MacUpdater {
    private static final String REPOSITORY = "Tuguberk/Mars-Macos";
-   private static final String LATEST_URL = "https://api.github.com/repos/" + REPOSITORY + "/releases/latest";
+   // A file in the newest release. The GitHub API limits requests from one network, this file does not.
+   private static final String LATEST_URL = "https://github.com/" + REPOSITORY + "/releases/latest/download/latest.json";
    private static final String DOWNLOAD_PREFIX = "https://github.com/" + REPOSITORY + "/releases/download/";
    private static final String AUTO_KEY = "MacUpdateAuto";
    private static final String LAST_CHECK_KEY = "MacUpdateLastCheck";
@@ -138,9 +139,7 @@ final class MacUpdater {
    }
 
    private static Release fetchLatest() throws IOException {
-      HttpURLConnection connection = open(LATEST_URL);
-      connection.setRequestProperty("Accept", "application/vnd.github+json");
-      try (InputStream in = connection.getInputStream()) {
+      try (InputStream in = open(LATEST_URL).getInputStream()) {
          ByteArrayOutputStream bytes = new ByteArrayOutputStream();
          in.transferTo(bytes);
          return parse(bytes.toString(StandardCharsets.UTF_8.name()), macArchitecture());
@@ -161,23 +160,19 @@ final class MacUpdater {
 
    /** Returns null if the release has no complete file for this Mac. */
    static Release parse(String json, String architecture) {
-      Matcher tag = Pattern.compile("\"tag_name\"\\s*:\\s*\"v?(\\d+(?:\\.\\d+){0,2})\"").matcher(json);
-      if (!tag.find()) {
+      String version = field(json, "version");
+      String url = field(json, architecture + "_url");
+      String sha256 = field(json, architecture + "_sha256");
+      if (version == null || url == null || sha256 == null || !version.matches("\\d+(\\.\\d+){0,2}")
+            || !url.startsWith(DOWNLOAD_PREFIX) || !sha256.matches("[0-9a-f]{64}")) {
          return null;
       }
-      Matcher file = Pattern.compile("\"browser_download_url\"\\s*:\\s*\"([^\"]+)\"").matcher(json);
-      int assetStart = 0;
-      while (file.find()) {
-         String url = file.group(1);
-         if (url.startsWith(DOWNLOAD_PREFIX) && url.endsWith("-" + architecture + ".dmg")) {
-            // GitHub writes the digest of a file before its download address.
-            Matcher digest = Pattern.compile("\"digest\"\\s*:\\s*\"sha256:([0-9a-f]{64})\"")
-                  .matcher(json.substring(assetStart, file.start()));
-            return digest.find() ? new Release(tag.group(1), url, digest.group(1)) : null;
-         }
-         assetStart = file.end();
-      }
-      return null;
+      return new Release(version, url, sha256);
+   }
+
+   private static String field(String json, String name) {
+      Matcher value = Pattern.compile("\"" + name + "\"\\s*:\\s*\"([^\"]+)\"").matcher(json);
+      return value.find() ? value.group(1) : null;
    }
 
    static boolean isNewer(String candidate, String current) {

@@ -21,10 +21,17 @@ jobs:
       - run: scripts/test.sh
       - name: Make the dmg
         run: MARS_MACOS_VERSION="${GITHUB_REF_NAME#v}" scripts/package-macos.sh
+      - name: Make the update file
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          dmg="build/package/Mars-Macos-$version-arm64.dmg"
+          sha="$(shasum -a 256 "$dmg" | cut -d ' ' -f 1)"
+          url="https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME/$(basename "$dmg")"
+          printf '{"version":"%s","arm64_url":"%s","arm64_sha256":"%s"}\n' "$version" "$url" "$sha" > build/package/latest.json
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" build/package/*.dmg \
+          gh release create "$GITHUB_REF_NAME" build/package/*.dmg build/package/latest.json \
             --title "Mars-Macos ${GITHUB_REF_NAME#v}" \
             --notes-file packaging/macos/release-notes.md

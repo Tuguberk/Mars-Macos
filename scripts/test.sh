@@ -16,6 +16,9 @@ if [[ -z "${JAVA_HOME:-}" && -x /usr/libexec/java_home ]]; then
 fi
 java_cmd="${JAVA_HOME:+$JAVA_HOME/bin/}java"
 
+# On Linux, Java prints a message the first time it makes this folder.
+mkdir -p "$HOME/.java/.userPrefs"
+
 work="$(mktemp -d)"
 trap '/bin/rm -rf "$work"' EXIT
 

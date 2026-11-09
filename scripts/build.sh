@@ -23,10 +23,10 @@ find Mars.java mars -name '*.java' > build/sources.txt
 for library in lib/*.jar; do
   unzip -qo "$library" -d "$stage" -x 'META-INF/MANIFEST.MF' 'META-INF/LICENSE*' '*module-info.class'
 done
-rsync -a lib/licenses "$stage/"
+cp -R lib/licenses "$stage/"
 
 # Copy the same files as upstream CreateMarsJar.bat, but not the old classes.
-rsync -a --exclude='*.class' Mars.java docs help images mars "$stage/"
+tar --exclude='*.class' -cf - Mars.java docs help images mars | tar -xf - -C "$stage"
 cp PseudoOps.txt Config.properties Syscall.properties Settings.properties \
   MARSlicense.txt mainclass.txt MipsXRayOpcode.xml registerDatapath.xml \
   controlDatapath.xml ALUcontrolDatapath.xml "$stage/"
